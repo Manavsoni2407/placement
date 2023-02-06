@@ -1,0 +1,63 @@
+{
+	"name": "ds_input",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_input",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "Placement.json",
+				"folderPath": "raw",
+				"fileSystem": "place-container"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"gender": {
+					"type": "string"
+				},
+				"ssc_percentage": {
+					"type": "number"
+				},
+				"ssc_board": {
+					"type": "string"
+				},
+				"hsc_percentage": {
+					"type": "number"
+				},
+				"hsc_board": {
+					"type": "string"
+				},
+				"hsc_subject": {
+					"type": "string"
+				},
+				"degree_percentage": {
+					"type": "number"
+				},
+				"undergrad_degree": {
+					"type": "string"
+				},
+				"work_experience": {
+					"type": "string"
+				},
+				"emp_test_percentage": {
+					"type": "number"
+				},
+				"specialisation": {
+					"type": "string"
+				},
+				"mba_percent": {
+					"type": "number"
+				},
+				"status": {
+					"type": "string"
+				}
+			}
+		}
+	}
+}
