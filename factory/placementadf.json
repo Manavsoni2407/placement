@@ -1,0 +1,9 @@
+{
+	"name": "placementadf",
+	"location": "centralindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "9642ad97-2b5a-438b-8464-d0c70215b825",
+		"tenantId": "ab52d4e5-9cc7-437a-bdda-f4239e145187"
+	}
+}
