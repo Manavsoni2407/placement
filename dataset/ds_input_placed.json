@@ -1,5 +1,5 @@
 {
-	"name": "ds_input2",
+	"name": "ds_input_placed",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ls2",
@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "not placed",
+				"fileName": "placed",
 				"folderPath": "curated",
 				"fileSystem": "place-container"
 			},
