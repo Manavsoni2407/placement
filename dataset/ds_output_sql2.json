@@ -1,5 +1,5 @@
 {
-	"name": "ds_output_sql1",
+	"name": "ds_output_sql2",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ls_sql1",
@@ -10,8 +10,7 @@
 		"schema": [
 			{
 				"name": "id",
-				"type": "int",
-				"precision": 10
+				"type": "varchar"
 			},
 			{
 				"name": "Gender",
@@ -50,7 +49,7 @@
 			},
 			{
 				"name": "Work Experience",
-				"type": "varbinary"
+				"type": "varchar"
 			},
 			{
 				"name": "Emp Test Percentage",
@@ -69,7 +68,7 @@
 		],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "Placement1"
+			"table": "Placement2"
 		}
 	}
 }

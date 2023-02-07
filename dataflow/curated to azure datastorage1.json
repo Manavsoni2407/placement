@@ -1,0 +1,72 @@
+{
+	"name": "curated to azure datastorage1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_input2",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_output_sql1",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          id as integer,",
+				"          Gender as string,",
+				"          {Ssc Percentage} as integer,",
+				"          {Ssc Board} as string,",
+				"          {Hsc Percentage} as integer,",
+				"          {Hsc Board} as string,",
+				"          {Hsc Subject} as string,",
+				"          {Degree Percentage} as integer,",
+				"          {Undergrad Degree} as string,",
+				"          {Work Experience} as string,",
+				"          {Emp Test Percentage} as integer,",
+				"          {MBA Percentage} as integer,",
+				"          {Current Status} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          id as integer,",
+				"          Gender as string,",
+				"          {Ssc Percentage} as integer,",
+				"          {Ssc Board} as string,",
+				"          {Hsc Percentage} as integer,",
+				"          {Hsc Board} as string,",
+				"          {Hsc Subject} as string,",
+				"          {Degree Percentage} as integer,",
+				"          {Undergrad Degree} as string,",
+				"          {Work Experience} as binary,",
+				"          {Emp Test Percentage} as integer,",
+				"          {MBA Percentage} as integer,",
+				"          {Current Status} as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+			]
+		}
+	}
+}
