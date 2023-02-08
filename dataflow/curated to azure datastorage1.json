@@ -6,7 +6,7 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "ds_input2",
+						"referenceName": "ds_input",
 						"type": "DatasetReference"
 					},
 					"name": "source1"
@@ -15,7 +15,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "ds_output_sql1",
+						"referenceName": "AzureSqlTable1",
 						"type": "DatasetReference"
 					},
 					"name": "sink1"
@@ -24,18 +24,18 @@
 			"transformations": [],
 			"scriptLines": [
 				"source(output(",
-				"          id as integer,",
+				"          id as string,",
 				"          Gender as string,",
-				"          {Ssc Percentage} as integer,",
+				"          {Ssc Percentage} as string,",
 				"          {Ssc Board} as string,",
-				"          {Hsc Percentage} as integer,",
+				"          {Hsc Percentage} as string,",
 				"          {Hsc Board} as string,",
 				"          {Hsc Subject} as string,",
-				"          {Degree Percentage} as integer,",
+				"          {Degree Percentage} as string,",
 				"          {Undergrad Degree} as string,",
 				"          {Work Experience} as string,",
-				"          {Emp Test Percentage} as integer,",
-				"          {MBA Percentage} as integer,",
+				"          {Emp Test Percentage} as string,",
+				"          {MBA Percentage} as string,",
 				"          {Current Status} as string",
 				"     ),",
 				"     allowSchemaDrift: true,",
@@ -53,7 +53,7 @@
 				"          {Hsc Subject} as string,",
 				"          {Degree Percentage} as integer,",
 				"          {Undergrad Degree} as string,",
-				"          {Work Experience} as binary,",
+				"          {Work Experience} as string,",
 				"          {Emp Test Percentage} as integer,",
 				"          {MBA Percentage} as integer,",
 				"          {Current Status} as string",
