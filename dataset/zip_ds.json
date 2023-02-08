@@ -1,0 +1,23 @@
+{
+	"name": "zip_ds",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_input",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "Placement.zip",
+				"folderPath": "raw",
+				"fileSystem": "place-container"
+			},
+			"compression": {
+				"type": "ZipDeflate",
+				"level": "Optimal"
+			}
+		}
+	}
+}
