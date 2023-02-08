@@ -128,7 +128,7 @@
 				"typeProperties": {
 					"variableName": "Error",
 					"value": {
-						"value": "@concat(activity('Copy data1').Error?.message)",
+						"value": "@concat(activity('Copy data1').Error?.message,'|',activity('Wait1').Error?.message,'|',activity('Wait2').Error?.message,'|',activity('Wait3').Error?.message)",
 						"type": "Expression"
 					}
 				}
