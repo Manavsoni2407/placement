@@ -1,5 +1,5 @@
 {
-	"name": "cleaned file to sql database",
+	"name": "csv to json",
 	"properties": {
 		"activities": [
 			{
@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "cleaned file to sql database",
+						"referenceName": "csv to json",
 						"type": "DataFlowReference"
 					},
 					"compute": {

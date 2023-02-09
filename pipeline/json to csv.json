@@ -27,14 +27,14 @@
 							"userProperties": [],
 							"typeProperties": {
 								"source": {
-									"type": "DelimitedTextSource",
+									"type": "JsonSource",
 									"storeSettings": {
 										"type": "AzureBlobFSReadSettings",
 										"recursive": true,
 										"enablePartitionDiscovery": false
 									},
 									"formatSettings": {
-										"type": "DelimitedTextReadSettings"
+										"type": "JsonReadSettings"
 									}
 								},
 								"sink": {
@@ -45,28 +45,142 @@
 									"formatSettings": {
 										"type": "DelimitedTextWriteSettings",
 										"quoteAllText": true,
-										"fileExtension": ".txt"
+										"fileExtension": ".csv"
 									}
 								},
 								"enableStaging": false,
 								"translator": {
 									"type": "TabularTranslator",
-									"typeConversion": true,
-									"typeConversionSettings": {
-										"allowDataTruncation": true,
-										"treatBooleanAsNumber": false
-									}
+									"mappings": [
+										{
+											"source": {
+												"path": "$['gender']"
+											},
+											"sink": {
+												"name": "gender",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"path": "$['ssc_percentage']"
+											},
+											"sink": {
+												"name": "ssc_percentage",
+												"type": "Int16"
+											}
+										},
+										{
+											"source": {
+												"path": "$['ssc_board']"
+											},
+											"sink": {
+												"name": "ssc_board",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"path": "$['hsc_percentage']"
+											},
+											"sink": {
+												"name": "hsc_percentage",
+												"type": "Int16"
+											}
+										},
+										{
+											"source": {
+												"path": "$['hsc_board']"
+											},
+											"sink": {
+												"name": "hsc_board",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"path": "$['hsc_subject']"
+											},
+											"sink": {
+												"name": "hsc_subject",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"path": "$['degree_percentage']"
+											},
+											"sink": {
+												"name": "degree_percentage",
+												"type": "Int16"
+											}
+										},
+										{
+											"source": {
+												"path": "$['undergrad_degree']"
+											},
+											"sink": {
+												"name": "undergrad_degree",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"path": "$['work_experience']"
+											},
+											"sink": {
+												"name": "work_experience",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"path": "$['emp_test_percentage']"
+											},
+											"sink": {
+												"name": "emp_test_percentage",
+												"type": "Int16"
+											}
+										},
+										{
+											"source": {
+												"path": "$['specialisation']"
+											},
+											"sink": {
+												"name": "specialisation",
+												"type": "String"
+											}
+										},
+										{
+											"source": {
+												"path": "$['mba_percent']"
+											},
+											"sink": {
+												"name": "mba_percent",
+												"type": "Int16"
+											}
+										},
+										{
+											"source": {
+												"path": "$['status']"
+											},
+											"sink": {
+												"name": "status",
+												"type": "String"
+											}
+										}
+									]
 								}
 							},
 							"inputs": [
 								{
-									"referenceName": "ds_input",
+									"referenceName": "ds_json_input",
 									"type": "DatasetReference"
 								}
 							],
 							"outputs": [
 								{
-									"referenceName": "ds_input",
+									"referenceName": "ds_csv_output",
 									"type": "DatasetReference"
 								}
 							]

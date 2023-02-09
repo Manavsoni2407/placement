@@ -1,5 +1,5 @@
 {
-	"name": "dataflow1",
+	"name": "csv to json",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
@@ -15,7 +15,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "ds_output_json",
+						"referenceName": "ds_json_output",
 						"type": "DatasetReference"
 					},
 					"name": "sink1"
@@ -43,21 +43,6 @@
 				"     ignoreNoFilesFound: false) ~> source1",
 				"source1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     input(",
-				"          id as string,",
-				"          Gender as string,",
-				"          {Ssc Percentage} as string,",
-				"          {Ssc Board} as string,",
-				"          {Hsc Percentage} as string,",
-				"          {Hsc Board} as string,",
-				"          {Hsc Subject} as string,",
-				"          {Degree Percentage} as string,",
-				"          {Undergrad Degree} as string,",
-				"          {Work Experience} as string,",
-				"          {Emp Test Percentage} as string,",
-				"          {MBA Percentage} as string,",
-				"          {Current Status} as string",
-				"     ),",
 				"     partitionFileNames:['placed+nonplaced.json'],",
 				"     umask: 0022,",
 				"     preCommands: [],",

@@ -1,12 +1,12 @@
 {
-	"name": "curated to azure datastorage1",
+	"name": "cleaned file to sql database",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "ds_input",
+						"referenceName": "ds_csv_input",
 						"type": "DatasetReference"
 					},
 					"name": "source1"
@@ -65,7 +65,23 @@
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          id,",
+				"          Gender,",
+				"          {Ssc Percentage},",
+				"          {Ssc Board},",
+				"          {Hsc Percentage},",
+				"          {Hsc Board},",
+				"          {Hsc Subject},",
+				"          {Degree Percentage} = {Undergrad Degree},",
+				"          {Undergrad Degree},",
+				"          {Work Experience},",
+				"          {Emp Test Percentage},",
+				"          {MBA Percentage},",
+				"          {Current Status}",
+				"     ),",
+				"     partitionBy('hash', 1)) ~> sink1"
 			]
 		}
 	}
