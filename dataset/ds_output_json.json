@@ -1,0 +1,76 @@
+{
+	"name": "ds_output_json",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_blob",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "curated",
+				"fileSystem": "place-container"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "id",
+				"type": "String"
+			},
+			{
+				"name": "Gender",
+				"type": "String"
+			},
+			{
+				"name": "Ssc Percentage",
+				"type": "String"
+			},
+			{
+				"name": "Ssc Board",
+				"type": "String"
+			},
+			{
+				"name": "Hsc Percentage",
+				"type": "String"
+			},
+			{
+				"name": "Hsc Board",
+				"type": "String"
+			},
+			{
+				"name": "Hsc Subject",
+				"type": "String"
+			},
+			{
+				"name": "Degree Percentage",
+				"type": "String"
+			},
+			{
+				"name": "Undergrad Degree",
+				"type": "String"
+			},
+			{
+				"name": "Work Experience",
+				"type": "String"
+			},
+			{
+				"name": "Emp Test Percentage",
+				"type": "String"
+			},
+			{
+				"name": "MBA Percentage",
+				"type": "String"
+			},
+			{
+				"name": "Current Status",
+				"type": "String"
+			}
+		]
+	}
+}

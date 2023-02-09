@@ -1,0 +1,71 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_input_json",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_output_json",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          id as string,",
+				"          Gender as string,",
+				"          {Ssc Percentage} as string,",
+				"          {Ssc Board} as string,",
+				"          {Hsc Percentage} as string,",
+				"          {Hsc Board} as string,",
+				"          {Hsc Subject} as string,",
+				"          {Degree Percentage} as string,",
+				"          {Undergrad Degree} as string,",
+				"          {Work Experience} as string,",
+				"          {Emp Test Percentage} as string,",
+				"          {MBA Percentage} as string,",
+				"          {Current Status} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          id as string,",
+				"          Gender as string,",
+				"          {Ssc Percentage} as string,",
+				"          {Ssc Board} as string,",
+				"          {Hsc Percentage} as string,",
+				"          {Hsc Board} as string,",
+				"          {Hsc Subject} as string,",
+				"          {Degree Percentage} as string,",
+				"          {Undergrad Degree} as string,",
+				"          {Work Experience} as string,",
+				"          {Emp Test Percentage} as string,",
+				"          {MBA Percentage} as string,",
+				"          {Current Status} as string",
+				"     ),",
+				"     partitionFileNames:['placed+nonplaced.json'],",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sink1"
+			]
+		}
+	}
+}
