@@ -3,7 +3,7 @@
 	"location": "centralindia",
 	"identity": {
 		"type": "SystemAssigned",
-		"principalId": "7222d95f-91a7-4bf6-9a2b-148407f43ed6",
+		"principalId": "629e51bd-8ccc-46e4-803f-371f1f0dde45",
 		"tenantId": "ab52d4e5-9cc7-437a-bdda-f4239e145187"
 	}
 }
