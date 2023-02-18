@@ -45,7 +45,7 @@
 									"formatSettings": {
 										"type": "DelimitedTextWriteSettings",
 										"quoteAllText": true,
-										"fileExtension": ".csv"
+										"fileExtension": ".txt"
 									}
 								},
 								"enableStaging": false,
@@ -174,13 +174,13 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "ds_json_input",
+									"referenceName": "ds_placed_json_input",
 									"type": "DatasetReference"
 								}
 							],
 							"outputs": [
 								{
-									"referenceName": "ds_csv_output",
+									"referenceName": "ds_placed_csv_output",
 									"type": "DatasetReference"
 								}
 							]

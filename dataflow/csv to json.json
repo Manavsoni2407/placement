@@ -6,7 +6,7 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "ds_input_json",
+						"referenceName": "ds_placed_nonplaced_csv_input",
 						"type": "DatasetReference"
 					},
 					"name": "source1"
@@ -15,7 +15,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "ds_json_output",
+						"referenceName": "ds_json_output_final",
 						"type": "DatasetReference"
 					},
 					"name": "sink1"
@@ -24,18 +24,18 @@
 			"transformations": [],
 			"scriptLines": [
 				"source(output(",
-				"          id as string,",
+				"          id as integer,",
 				"          Gender as string,",
-				"          {Ssc Percentage} as string,",
+				"          {Ssc Percentage} as integer,",
 				"          {Ssc Board} as string,",
-				"          {Hsc Percentage} as string,",
+				"          {Hsc Percentage} as integer,",
 				"          {Hsc Board} as string,",
 				"          {Hsc Subject} as string,",
-				"          {Degree Percentage} as string,",
+				"          {Degree Percentage} as integer,",
 				"          {Undergrad Degree} as string,",
 				"          {Work Experience} as string,",
-				"          {Emp Test Percentage} as string,",
-				"          {MBA Percentage} as string,",
+				"          {Emp Test Percentage} as integer,",
+				"          {MBA Percentage} as integer,",
 				"          {Current Status} as string",
 				"     ),",
 				"     allowSchemaDrift: true,",

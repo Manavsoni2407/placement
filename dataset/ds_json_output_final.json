@@ -1,0 +1,19 @@
+{
+	"name": "ds_json_output_final",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_input",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "curated",
+				"fileSystem": "container"
+			}
+		},
+		"schema": {}
+	}
+}

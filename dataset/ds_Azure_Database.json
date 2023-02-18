@@ -1,0 +1,75 @@
+{
+	"name": "ds_Azure_Database",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_Azure_Database",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Gender",
+				"type": "varchar"
+			},
+			{
+				"name": "Ssc Percentage",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Ssc Board",
+				"type": "varchar"
+			},
+			{
+				"name": "Hsc Percentage",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Hsc Board",
+				"type": "varchar"
+			},
+			{
+				"name": "Hsc Subject",
+				"type": "varchar"
+			},
+			{
+				"name": "Degree Percentage",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Undergrad Degree",
+				"type": "varchar"
+			},
+			{
+				"name": "Work Experience",
+				"type": "varchar"
+			},
+			{
+				"name": "Emp Test Percentage",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "MBA Percentage",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Current Status",
+				"type": "nchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Placement"
+		}
+	}
+}
