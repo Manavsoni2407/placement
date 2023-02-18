@@ -1,0 +1,957 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "placeadf"
+		},
+		"ls_Azure_Database_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'ls_Azure_Database'"
+		},
+		"ls_input_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'ls_input'"
+		},
+		"ls_input_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://placestore.dfs.core.windows.net/"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/cleaned file to sql database')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Data flow1",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "cleaned file to sql database",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source1": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/cleaned file to sql database')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/csv to json')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Data flow1",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "csv to json",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source1": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/csv to json')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/json to csv')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "If Condition1",
+						"type": "IfCondition",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@contains('12345', string(dayOfWeek(utcNow())))",
+								"type": "Expression"
+							},
+							"ifTrueActivities": [
+								{
+									"name": "Copy data1",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "JsonSource",
+											"storeSettings": {
+												"type": "AzureBlobFSReadSettings",
+												"recursive": true,
+												"enablePartitionDiscovery": false
+											},
+											"formatSettings": {
+												"type": "JsonReadSettings"
+											}
+										},
+										"sink": {
+											"type": "DelimitedTextSink",
+											"storeSettings": {
+												"type": "AzureBlobFSWriteSettings"
+											},
+											"formatSettings": {
+												"type": "DelimitedTextWriteSettings",
+												"quoteAllText": true,
+												"fileExtension": ".txt"
+											}
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"mappings": [
+												{
+													"source": {
+														"path": "$['gender']"
+													},
+													"sink": {
+														"name": "gender",
+														"type": "String"
+													}
+												},
+												{
+													"source": {
+														"path": "$['ssc_percentage']"
+													},
+													"sink": {
+														"name": "ssc_percentage",
+														"type": "Int16"
+													}
+												},
+												{
+													"source": {
+														"path": "$['ssc_board']"
+													},
+													"sink": {
+														"name": "ssc_board",
+														"type": "String"
+													}
+												},
+												{
+													"source": {
+														"path": "$['hsc_percentage']"
+													},
+													"sink": {
+														"name": "hsc_percentage",
+														"type": "Int16"
+													}
+												},
+												{
+													"source": {
+														"path": "$['hsc_board']"
+													},
+													"sink": {
+														"name": "hsc_board",
+														"type": "String"
+													}
+												},
+												{
+													"source": {
+														"path": "$['hsc_subject']"
+													},
+													"sink": {
+														"name": "hsc_subject",
+														"type": "String"
+													}
+												},
+												{
+													"source": {
+														"path": "$['degree_percentage']"
+													},
+													"sink": {
+														"name": "degree_percentage",
+														"type": "Int16"
+													}
+												},
+												{
+													"source": {
+														"path": "$['undergrad_degree']"
+													},
+													"sink": {
+														"name": "undergrad_degree",
+														"type": "String"
+													}
+												},
+												{
+													"source": {
+														"path": "$['work_experience']"
+													},
+													"sink": {
+														"name": "work_experience",
+														"type": "String"
+													}
+												},
+												{
+													"source": {
+														"path": "$['emp_test_percentage']"
+													},
+													"sink": {
+														"name": "emp_test_percentage",
+														"type": "Int16"
+													}
+												},
+												{
+													"source": {
+														"path": "$['specialisation']"
+													},
+													"sink": {
+														"name": "specialisation",
+														"type": "String"
+													}
+												},
+												{
+													"source": {
+														"path": "$['mba_percent']"
+													},
+													"sink": {
+														"name": "mba_percent",
+														"type": "Int16"
+													}
+												},
+												{
+													"source": {
+														"path": "$['status']"
+													},
+													"sink": {
+														"name": "status",
+														"type": "String"
+													}
+												}
+											]
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "ds_placed_json_input",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "ds_placed_csv_output",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									]
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_placed_json_input')]",
+				"[concat(variables('factoryId'), '/datasets/ds_placed_csv_output')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/zip to json')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "BinarySource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true
+								},
+								"formatSettings": {
+									"type": "BinaryReadSettings",
+									"compressionProperties": {
+										"type": "ZipDeflateReadSettings"
+									}
+								}
+							},
+							"sink": {
+								"type": "BinarySink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								}
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "ds_zip_input",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ds_zip_output",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"variables": {
+					"Error": {
+						"type": "String"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_zip_input')]",
+				"[concat(variables('factoryId'), '/datasets/ds_zip_output')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_Azure_Database')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_Azure_Database",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Gender",
+						"type": "varchar"
+					},
+					{
+						"name": "Ssc Percentage",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Ssc Board",
+						"type": "varchar"
+					},
+					{
+						"name": "Hsc Percentage",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Hsc Board",
+						"type": "varchar"
+					},
+					{
+						"name": "Hsc Subject",
+						"type": "varchar"
+					},
+					{
+						"name": "Degree Percentage",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Undergrad Degree",
+						"type": "varchar"
+					},
+					{
+						"name": "Work Experience",
+						"type": "varchar"
+					},
+					{
+						"name": "Emp Test Percentage",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "MBA Percentage",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Current Status",
+						"type": "nchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "Placement"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_Azure_Database')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_json_output_final')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_input",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "curated",
+						"fileSystem": "container"
+					}
+				},
+				"schema": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_input')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_placed_csv_output')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_input",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "raw",
+						"fileSystem": "container"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "gender",
+						"type": "String"
+					},
+					{
+						"name": "ssc_percentage",
+						"type": "String"
+					},
+					{
+						"name": "ssc_board",
+						"type": "String"
+					},
+					{
+						"name": "hsc_percentage",
+						"type": "String"
+					},
+					{
+						"name": "hsc_board",
+						"type": "String"
+					},
+					{
+						"name": "hsc_subject",
+						"type": "String"
+					},
+					{
+						"name": "degree_percentage",
+						"type": "String"
+					},
+					{
+						"name": "undergrad_degree",
+						"type": "String"
+					},
+					{
+						"name": "work_experience",
+						"type": "String"
+					},
+					{
+						"name": "emp_test_percentage",
+						"type": "String"
+					},
+					{
+						"name": "specialisation",
+						"type": "String"
+					},
+					{
+						"name": "mba_percent",
+						"type": "String"
+					},
+					{
+						"name": "status",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_input')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_placed_json_input')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_input",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "Placement.json",
+						"folderPath": "raw",
+						"fileSystem": "container"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"gender": {
+							"type": "string"
+						},
+						"ssc_percentage": {
+							"type": "number"
+						},
+						"ssc_board": {
+							"type": "string"
+						},
+						"hsc_percentage": {
+							"type": "number"
+						},
+						"hsc_board": {
+							"type": "string"
+						},
+						"hsc_subject": {
+							"type": "string"
+						},
+						"degree_percentage": {
+							"type": "number"
+						},
+						"undergrad_degree": {
+							"type": "string"
+						},
+						"work_experience": {
+							"type": "string"
+						},
+						"emp_test_percentage": {
+							"type": "number"
+						},
+						"specialisation": {
+							"type": "string"
+						},
+						"mba_percent": {
+							"type": "number"
+						},
+						"status": {
+							"type": "string"
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_input')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_placed_nonplaced_csv_input')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_input",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "place+notplaced.csv",
+						"folderPath": "curated",
+						"fileSystem": "container"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "id",
+						"type": "String"
+					},
+					{
+						"name": "Gender",
+						"type": "String"
+					},
+					{
+						"name": "Ssc Percentage",
+						"type": "String"
+					},
+					{
+						"name": "Ssc Board",
+						"type": "String"
+					},
+					{
+						"name": "Hsc Percentage",
+						"type": "String"
+					},
+					{
+						"name": "Hsc Board",
+						"type": "String"
+					},
+					{
+						"name": "Hsc Subject",
+						"type": "String"
+					},
+					{
+						"name": "Degree Percentage",
+						"type": "String"
+					},
+					{
+						"name": "Undergrad Degree",
+						"type": "String"
+					},
+					{
+						"name": "Work Experience",
+						"type": "String"
+					},
+					{
+						"name": "Emp Test Percentage",
+						"type": "String"
+					},
+					{
+						"name": "MBA Percentage",
+						"type": "String"
+					},
+					{
+						"name": "Current Status",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_input')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_zip_input')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_input",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Binary",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "Placement.zip",
+						"folderPath": "raw",
+						"fileSystem": "container"
+					},
+					"compression": {
+						"type": "ZipDeflate",
+						"level": "Optimal"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_input')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_zip_output')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_input",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Binary",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "raw",
+						"fileSystem": "container"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_input')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ls_Azure_Database')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('ls_Azure_Database_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ls_input')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('ls_input_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('ls_input_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/cleaned file to sql database')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ds_placed_nonplaced_csv_input",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ds_Azure_Database",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          id as integer,",
+						"          Gender as string,",
+						"          {Ssc Percentage} as integer,",
+						"          {Ssc Board} as string,",
+						"          {Hsc Percentage} as integer,",
+						"          {Hsc Board} as string,",
+						"          {Hsc Subject} as string,",
+						"          {Degree Percentage} as integer,",
+						"          {Undergrad Degree} as string,",
+						"          {Work Experience} as string,",
+						"          {Emp Test Percentage} as integer,",
+						"          {MBA Percentage} as integer,",
+						"          {Current Status} as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source1",
+						"source1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          id as integer,",
+						"          Gender as string,",
+						"          {Ssc Percentage} as integer,",
+						"          {Ssc Board} as string,",
+						"          {Hsc Percentage} as integer,",
+						"          {Hsc Board} as string,",
+						"          {Hsc Subject} as string,",
+						"          {Degree Percentage} as integer,",
+						"          {Undergrad Degree} as string,",
+						"          {Work Experience} as string,",
+						"          {Emp Test Percentage} as integer,",
+						"          {MBA Percentage} as integer,",
+						"          {Current Status} as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     partitionBy('hash', 1)) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_placed_nonplaced_csv_input')]",
+				"[concat(variables('factoryId'), '/datasets/ds_Azure_Database')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/csv to json')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ds_placed_nonplaced_csv_input",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ds_json_output_final",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          id as integer,",
+						"          Gender as string,",
+						"          {Ssc Percentage} as integer,",
+						"          {Ssc Board} as string,",
+						"          {Hsc Percentage} as integer,",
+						"          {Hsc Board} as string,",
+						"          {Hsc Subject} as string,",
+						"          {Degree Percentage} as integer,",
+						"          {Undergrad Degree} as string,",
+						"          {Work Experience} as string,",
+						"          {Emp Test Percentage} as integer,",
+						"          {MBA Percentage} as integer,",
+						"          {Current Status} as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source1",
+						"source1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     partitionFileNames:['placed+nonplaced.json'],",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_placed_nonplaced_csv_input')]",
+				"[concat(variables('factoryId'), '/datasets/ds_json_output_final')]"
+			]
+		}
+	]
+}
