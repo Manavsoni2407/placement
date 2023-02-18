@@ -1,0 +1,9 @@
+{
+	"name": "placeadf",
+	"location": "centralindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "402b8844-a6fa-4fb5-8077-c1b0f4b681b5",
+		"tenantId": "ab52d4e5-9cc7-437a-bdda-f4239e145187"
+	}
+}
